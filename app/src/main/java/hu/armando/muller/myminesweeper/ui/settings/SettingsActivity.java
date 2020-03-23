@@ -1,4 +1,4 @@
-package hu.armando.muller.myminesweeper.settings;
+package hu.armando.muller.myminesweeper.ui.settings;
 
 import android.os.Bundle;
 
