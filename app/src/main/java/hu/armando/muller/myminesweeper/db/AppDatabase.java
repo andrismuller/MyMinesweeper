@@ -5,18 +5,32 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
 import androidx.lifecycle.MutableLiveData;
+import androidx.room.Database;
 import androidx.room.DatabaseConfiguration;
 import androidx.room.InvalidationTracker;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 import androidx.sqlite.db.SupportSQLiteOpenHelper;
 
 import hu.armando.muller.myminesweeper.AppExecutors;
+import hu.armando.muller.myminesweeper.db.converter.DateConverter;
+import hu.armando.muller.myminesweeper.db.dao.MineFieldBlockDao;
+import hu.armando.muller.myminesweeper.db.dao.MineFieldDao;
+import hu.armando.muller.myminesweeper.db.entity.MineFieldBlockEntity;
+import hu.armando.muller.myminesweeper.db.entity.MineFieldEntity;
+import hu.armando.muller.myminesweeper.model.MineFieldBlock;
 
-public class AppDatabase extends RoomDatabase {
+@Database(entities = {MineFieldEntity.class, MineFieldBlockEntity.class}, version = 1)
+@TypeConverters(DateConverter.class)
+public abstract class AppDatabase extends RoomDatabase {
 
     private static AppDatabase sInstance;
+
+    public abstract MineFieldDao mineFieldDao();
+    public abstract MineFieldBlockDao mineFieldBlockDao();
+
     private final MutableLiveData<Boolean> mIsDatabaseCreated = new MutableLiveData<>();
 
     @VisibleForTesting
